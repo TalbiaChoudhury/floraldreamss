@@ -20,33 +20,35 @@ const FilterIcon = ({ className = 'w-4 h-4' }) => (
   </svg>
 );
 
-
+// 👇 1. Updated the Product interface
 interface Product {
   id: number;
   name: string;
+  image: string; // Added image property
   price: number;
   originalPrice?: number;
   status: 'featured' | 'sale' | 'out-of-stock' | 'default';
   discount?: number;
 }
 
+// 👇 2. Added the 'image' property to each product object
 const products: Product[] = [
-  { id: 1, name: 'Flowers 1', price: 75.00, status: 'featured' },
-  { id: 2, name: 'Flowers 2', price: 60.00, status: 'default' },
-  { id: 3, name: 'Flowers 3', price: 24.00, originalPrice: 30.00, status: 'sale', discount: 20 },
-  { id: 4, name: 'Flowers 4', price: 45.00, status: 'default' },
-  { id: 5, name: 'Flowers 5', price: 85.00, status: 'default' },
-  { id: 6, name: 'Flowers 6', price: 15.00, originalPrice: 25.00, status: 'sale', discount: 40 },
-  { id: 7, name: 'Flowers 7', price: 22.00, status: 'out-of-stock' },
-  { id: 8, name: 'Flowers 8', price: 38.00, status: 'default' },
-  { id: 9, name: 'Flowers 9', price: 18.00, status: 'featured' },
-  { id: 10, name: 'Flowers 10', price: 95.00, status: 'default' },
-  { id: 11, name: 'Flowers 11', price: 42.00, originalPrice: 50.00, status: 'sale', discount: 16 },
-  { id: 12, name: 'Flowers 12', price: 12.00, status: 'default' },
-  { id: 13, name: 'Flowers 13', price: 30.00, status: 'default' },
-  { id: 14, name: 'Flowers 14', price: 65.00, status: 'out-of-stock' },
-  { id: 15, name: 'Flowers 15', price: 55.00, status: 'default' },
-  { id: 16, name: 'Flowers 16', price: 28.00, status: 'featured' },
+  { id: 1, name: 'Flowers 1', image: '/images/products/example1.jpg', price: 75.00, status: 'featured' },
+  { id: 2, name: 'Flowers 2', image: '/images/products/example2.jpg', price: 60.00, status: 'default' },
+  { id: 3, name: 'Flowers 3', image: '/images/products/example3.jpg', price: 24.00, originalPrice: 30.00, status: 'sale', discount: 20 },
+  { id: 4, name: 'Flowers 4', image: '/images/products/example4.jpg', price: 45.00, status: 'default' },
+  { id: 5, name: 'Flowers 5', image: '/images/products/example5.jpg', price: 85.00, status: 'default' },
+  { id: 6, name: 'Flowers 6', image: '/images/products/example1.jpg', price: 15.00, originalPrice: 25.00, status: 'sale', discount: 40 },
+  { id: 7, name: 'Flowers 7', image: '/images/products/example2.jpg', price: 22.00, status: 'out-of-stock' },
+  { id: 8, name: 'Flowers 8', image: '/images/products/example3.jpg', price: 38.00, status: 'default' },
+  { id: 9, name: 'Flowers 9', image: '/images/products/example4.jpg', price: 18.00, status: 'featured' },
+  { id: 10, name: 'Flowers 10', image: '/images/products/example5.jpg', price: 95.00, status: 'default' },
+  { id: 11, name: 'Flowers 11', image: '/images/products/example1.jpg', price: 42.00, originalPrice: 50.00, status: 'sale', discount: 16 },
+  { id: 12, name: 'Flowers 12', image: '/images/products/example2.jpg', price: 12.00, status: 'default' },
+  { id: 13, name: 'Flowers 13', image: '/images/products/example3.jpg', price: 30.00, status: 'default' },
+  { id: 14, name: 'Flowers 14', image: '/images/products/example4.jpg', price: 65.00, status: 'out-of-stock' },
+  { id: 15, name: 'Flowers 15', image: '/images/products/example5.jpg', price: 55.00, status: 'default' },
+  { id: 16, name: 'Flowers 16', image: '/images/products/example1.jpg', price: 28.00, status: 'featured' },
 ];
 
 const ProductList: React.FC = () => {
@@ -72,7 +74,7 @@ const ProductList: React.FC = () => {
   }, [isSortOpen]);
 
   const renderBadge = (product: Product) => {
-    // 👇 MODIFIED: Added z-10 to all badges
+    // ...function remains unchanged
     if (product.status === 'featured') {
       return (
         <div className="absolute top-3 left-3 bg-primary text-foreground text-[10px] font-semibold uppercase px-2 py-1 tracking-wider z-10">
@@ -98,7 +100,8 @@ const ProductList: React.FC = () => {
   };
   
   const renderPrice = (product: Product) => (
-    <div className="mt-2 text-sm text-foreground">
+    // ...function remains unchanged
+     <div className="mt-2 text-sm text-foreground">
       {product.status === 'sale' && product.originalPrice ? (
         <span>
           <span className="text-gray-500 line-through">
@@ -154,12 +157,13 @@ const ProductList: React.FC = () => {
             <div className="group text-center">
               <div className="relative bg-white w-full aspect-square overflow-hidden">
                 {renderBadge(product)}
+                {/* 👇 3. Image src now comes from the product object */}
                 <Image
-                  src="/images/floral border.png"
+                  src={product.image}
                   alt={product.name}
                   width={400}
                   height={400}
-                  className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
               <h3 className="mt-3 text-sm font-medium text-foreground tracking-wide">
